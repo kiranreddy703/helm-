@@ -1,0 +1,27 @@
+rbac:
+  # Specifies whether RBAC resources should be created
+  create: true
+
+crd:
+  create: true
+
+serviceAccount:
+  # Specifies whether a ServiceAccount should be created
+  create: true
+  name: helmtest-serviceaccount
+
+green:
+  enabled: false
+
+blue:
+  enabled: true
+
+productionSlot: blue
+
+replicaCount: 1
+
+ingress:
+  hostname: bluegreen.nonprod.torq.trans.apps.ge.com
+  stagehostname: stage.bluegreen.nonprod.torq.trans.apps.ge.com
+
+index: hello world

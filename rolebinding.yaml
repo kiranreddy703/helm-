@@ -1,0 +1,35 @@
+{{- if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: {{ template "blue-green.name" . }}-role-nisa-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "blue-green.name" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "blue-green.name" . }}-clusterrole-nisa-binding
+  labels:
+    app: {{ template "blue-green.chart" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ template "blue-green.name" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+---
+{{- end }}
